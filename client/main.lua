@@ -1,4 +1,25 @@
-local ESX = exports["es_extended"]:getSharedObject()
+-- ESX initialization
+local ESX = nil
+
+Citizen.CreateThread(function()
+    while ESX == nil do
+        -- Try different methods to get ESX
+        if GetResourceState('es_extended') ~= 'missing' then
+            if exports['es_extended'] ~= nil and exports['es_extended'].getSharedObject ~= nil then
+                ESX = exports['es_extended']:getSharedObject()
+            else
+                TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+            end
+        else
+            print('ERROR: es_extended not found. Make sure es_extended is installed and started correctly.')
+        end
+        
+        if ESX == nil then
+            Citizen.Wait(500)
+        end
+    end
+    print('Private Weapons Market: ESX Loaded Successfully')
+end)
 local marketOpen = false
 local isLoggedIn = false
 local currentUser = nil
@@ -9,7 +30,17 @@ local deliveryBlip = nil
 
 -- Function to show notification
 function ShowNotification(message)
-    ESX.ShowNotification(message)
+    if ESX and ESX.ShowNotification then
+        ESX.ShowNotification(message)
+    else
+        -- Fallback to GTA native notification
+        SetNotificationTextEntry('STRING')
+        AddTextComponentString(message)
+        DrawNotification(false, true)
+        
+        -- Also output to console for debugging
+        print('[Private Weapons Market] ' .. message)
+    end
 end
 
 -- Function to draw 3D text in the world
@@ -196,12 +227,18 @@ Citizen.CreateThread(function()
     while true do
         local playerCoords = GetEntityCoords(PlayerPedId())
         local distance = #(playerCoords - Config.MarketLocation)
+        local sleep = 1000
         
-        if distance < Config.MarketRadius then
-            Draw3DText(Config.MarketLocation.x, Config.MarketLocation.y, Config.MarketLocation.z + 1.0, "Press ~g~E~w~ to access weapon market")
+        if distance < Config.MarketRadius * 2 then
+            sleep = 0
+            DrawMarker(1, Config.MarketLocation.x, Config.MarketLocation.y, Config.MarketLocation.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.5, 0, 123, 255, 100, false, true, 2, false, nil, nil, false)
             
-            if IsControlJustReleased(0, 38) and not marketOpen then -- 38 is E key
-                OpenMarketUI()
+            if distance < Config.MarketRadius then
+                Draw3DText(Config.MarketLocation.x, Config.MarketLocation.y, Config.MarketLocation.z + 1.0, "Press ~g~E~w~ to access weapon market")
+                
+                if IsControlJustReleased(0, 38) and not marketOpen then -- 38 is E key
+                    OpenMarketUI()
+                end
             end
         end
         
@@ -209,15 +246,32 @@ Citizen.CreateThread(function()
         if npcSpawned and weaponDeliveryActive then
             local distanceToNPC = #(playerCoords - Config.NPCLocation)
             
-            if distanceToNPC < 2.0 then
-                Draw3DText(Config.NPCLocation.x, Config.NPCLocation.y, Config.NPCLocation.z + 1.0, "Press ~g~E~w~ to receive weapons")
+            if distanceToNPC < 8.0 then
+                sleep = 0
                 
-                if IsControlJustReleased(0, 38) then -- 38 is E key
-                    DeliverWeapons()
+                if distanceToNPC < 2.0 then
+                    Draw3DText(Config.NPCLocation.x, Config.NPCLocation.y, Config.NPCLocation.z + 1.0, "Press ~g~E~w~ to receive weapons")
+                    
+                    if IsControlJustReleased(0, 38) then -- 38 is E key
+                        DeliverWeapons()
+                    end
                 end
             end
         end
         
-        Citizen.Wait(0)
+        Citizen.Wait(sleep)
     end
+end)
+
+-- Add a blip for the market location
+Citizen.CreateThread(function()
+    local blip = AddBlipForCoord(Config.MarketLocation.x, Config.MarketLocation.y, Config.MarketLocation.z)
+    SetBlipSprite(blip, 110) -- 110 is a gun icon
+    SetBlipDisplay(blip, 4)
+    SetBlipScale(blip, 0.8)
+    SetBlipColour(blip, 1) -- 1 is red
+    SetBlipAsShortRange(blip, true)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString("Private Weapons Market")
+    EndTextCommandSetBlipName(blip)
 end)

@@ -1,6 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
+name 'private_weapons_market'
 author 'ESX Developer'
 description 'Private Weapons Market for ESX Legacy'
 version '1.0.0'

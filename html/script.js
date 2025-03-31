@@ -45,7 +45,7 @@ $(function() {
         }
         
         // Send login request to client script
-        $.post('https://privateWeapons/login', JSON.stringify({
+        $.post(`https://${GetParentResourceName()}/login`, JSON.stringify({
             username: username,
             password: password
         }), function(response) {
@@ -57,7 +57,7 @@ $(function() {
     
     // Handle logout button click
     $('#logout-btn').on('click', function() {
-        $.post('https://privateWeapons/closeUI', JSON.stringify({}));
+        $.post(`https://${GetParentResourceName()}/closeUI`, JSON.stringify({}));
     });
     
     // Function to display weapons in the menu
@@ -85,7 +85,7 @@ $(function() {
     
     // Function to purchase a weapon
     function purchaseWeapon(weaponName) {
-        $.post('https://privateWeapons/purchaseWeapon', JSON.stringify({
+        $.post(`https://${GetParentResourceName()}/purchaseWeapon`, JSON.stringify({
             weapon: weaponName
         }), function(response) {
             if (!response.success) {
@@ -111,7 +111,7 @@ $(function() {
     // Handle keydown for ESC key
     $(document).keydown(function(e) {
         if (e.keyCode === 27) { // ESC key
-            $.post('https://privateWeapons/closeUI', JSON.stringify({}));
+            $.post(`https://${GetParentResourceName()}/closeUI`, JSON.stringify({}));
         }
     });
 });
