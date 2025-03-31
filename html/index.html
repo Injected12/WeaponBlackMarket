@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Weapons Market</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <!-- Login Screen -->
+        <div id="login-screen">
+            <div class="form-container">
+                <h2>Private Weapons Market</h2>
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password">
+                </div>
+                <button id="login-btn">Login</button>
+                <p id="login-error" class="error-message"></p>
+            </div>
+        </div>
+
+        <!-- Weapons Menu -->
+        <div id="weapons-menu">
+            <div class="menu-header">
+                <h2>Available Weapons</h2>
+                <button id="logout-btn">Logout</button>
+            </div>
+            <div id="weapons-list">
+                <!-- Weapons will be added here dynamically -->
+            </div>
+            <div id="purchase-message" class="message-container"></div>
+        </div>
+    </div>
+
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="script.js"></script>
+</body>
+</html>

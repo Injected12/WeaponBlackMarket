@@ -1,0 +1,34 @@
+modules = ["lua"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "FiveM ESX Weapons Market"
+
+[[workflows.workflow]]
+name = "FiveM ESX Weapons Market"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd .. && fxserver +exec server.cfg"
+waitForPort = 5000
+
+[deployment]
+run = ["sh", "-c", "cd .. && fxserver +exec server.cfg"]

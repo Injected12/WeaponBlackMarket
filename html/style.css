@@ -1,0 +1,163 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+#container {
+    display: none;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login Screen */
+#login-screen {
+    background-color: rgba(1, 70, 144, 0.85); /* #014690 with opacity */
+    border-radius: 10px;
+    width: 400px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.form-container {
+    text-align: center;
+}
+
+.form-container h2 {
+    color: white;
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    color: white;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+}
+
+button {
+    background-color: white;
+    color: #014690;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+}
+
+.error-message {
+    color: #ff4d4d;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* Weapons Menu */
+#weapons-menu {
+    display: none;
+    background-color: rgba(1, 70, 144, 0.85); /* #014690 with opacity */
+    border-radius: 10px;
+    width: 600px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.menu-header h2 {
+    color: white;
+    font-size: 24px;
+}
+
+#logout-btn {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 15px;
+}
+
+#weapons-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.weapon-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 15px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.weapon-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.weapon-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.weapon-price {
+    font-size: 16px;
+    color: #aaddff;
+}
+
+.message-container {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    display: none;
+}
+
+.message-container.error {
+    background-color: rgba(255, 77, 77, 0.3);
+}
+
+.message-container.success {
+    background-color: rgba(77, 255, 77, 0.3);
+}
